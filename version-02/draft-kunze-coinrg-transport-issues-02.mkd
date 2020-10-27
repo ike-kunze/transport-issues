@@ -38,7 +38,8 @@ normative:
 
 informative:
   I-D.draft-kutscher-coinrg-dir-02:
-  I-D.draft-ietf-sfc-proof-of-transit-06:
+  I-D.draft-ietf-sfc-proof-of-transit-07:
+  I-D.draft-sarathchandra-coin-appcentres-02:
   RFC0768:
   RFC0793:
 
@@ -69,6 +70,11 @@ Collaboration with other IRTF and IETF groups, such as PANRG, the IETF transport
 
   COIN element: Device on which COIN functionality can be deployed
 
+
+
+
+
+
 # Addressing {#addressing}
 The traditional addressing concept of the Internet is that end-hosts directly address each other with all computational intelligence residing at the network edges.
 With COIN, computations move into the network and need to be integrated into the established infrastructure.
@@ -77,15 +83,31 @@ Considering larger scales, this approach of manually adjusting traffic patterns 
 
 What is needed are ways to specify which kind of functionality should be applied to the transmitted data on the path inside the network and maybe even where or by whom the execution should take place.
 Such functionality could for example be implemented using an indirection mechanism which routes a packet along a pre-defined or dynamically chosen path which then realizes the desired functionality.
-Related concepts are Segment and Source Routing as well as (Service/Network) Function Chaining/Composition.
+
+One possibility is to directly route on service or functionality identifiers instead of sending individual packets between locator-addressed network elements {{I-D.draft-sarathchandra-coin-appcentres-02}}.
+While this aligns the routing more clearly with the communication between computational elements, selecting the 'right' computational endpoint (out of possibly several ones) becomes critical to the proper functioning of the overall service.
+
+Further related concepts are Segment and Source Routing as well as (Service/Network) Function Chaining/Composition.
+
 
 Main challenges/questions are:
 
 1. How should end-hosts address the COIN functionality?
-2. How can the end-hosts influence where or by whom the functionality is executed?
-3. How can devices which do not implement COIN functionality be integrated into the systems without breaking the COIN or legacy functionality?
 
-Another question is how the transmitted data is to be treated by the devices implementing the functionality. 
+2. How can the treatment of the transmitted data, i.e., which COIN functionality to execute, be represented in the addressing of the request?
+
+3. How can end-hosts direct computational requests to different computational endpoints of the same service in different network locations, i.e., decide where the COIN functionality is executed?
+
+4. How to consider constraints into the decision which computational endpoint to choose (from possibly several ones existing in the network)?
+
+5.  How can devices which do not implement COIN functionality be integrated into the systems without breaking the COIN or legacy functionality?
+
+
+
+
+
+
+
 
 # Flow granularity {#flowgranularity}
 Core networking hardware pipelines such as backbone switches are built to process incoming packets on a per-packet basis, keeping little to no state between them.
@@ -101,11 +123,27 @@ This respects the possibilities that are already offered by all networking equip
 In this setting, the packet alone does not have enough information for the computations.
 Instead, it is important to know the content of the surrounding packets which together form the overall message.
 3. Every packet is treated as part of a byte stream.
-Here, all previous packets and potentially even all subsequent packets need to be taken into consideration for the computations as the current packet could, e.g., be the first of a group of packets, a packet in the middle or the final packet.
+Here, all previous packets and potentially even all subsequent packets need to be taken into consideration for the computations as the current packet could, e.g., be the first of a group of packets, a packet in the middle, or the final packet.
 
-The flow granularity consequently has a significant impact on how computations can be performed and where.
-Apart from how the COIN elements should treat the transmitted data, another important aspect is how it can be ensured that the end-hosts know who has altered the data and how.
 
+Along those options above, the question arises how to handle shorter-term 'messages' (or transactions) of the computation against the often longer-term management of the network resources needed to transmit the packets across one or more such messages. 
+For instance, error control may be best applied to the individual messages between computational endpoints, while congestion control may be applied across several messages at the level of the relation between the network elements hosting the computational endpoints.
+In this view, the notion of a 'flow' may separate message or transaction handling from the resource management aspect, where a flow may be divided into sub-flows (said messages or transactions) with error control being applied to those sub-flows but resource management being applied to the overall flow. 
+Such choice of flow granularity would consequently have a significant impact on how and where computations can be performed as well as ensuring that end-hosts know who has altered the data and how.
+
+
+
+
+
+
+# Collective Communication {#collectiveCommunication}
+COIN scenarios may exhibit a collective communication semantic, i.e., a communication between one and more computational endpoints, as is for example illustrated by use cases in {{I-D.draft-sarathchandra-coin-appcentres-02}}.
+With this, unicast and multicast transmissions become almost equal forms of communication, as also observed in work on information-centric networking (ICN). 
+
+Yet, these many-point relations may be ephemeral down to the granularity of individual service requests between computational endpoints which questions the viability of stateful routing and transport approaches used for long-lived multicast scenarios such as liveTV transmissions. 
+
+This is particularly pertinent for the transport layer where reliability and flow control among a quickly changing set of receivers is a challenging problem. 
+The ability to divide receiver groups with the support of in-network COIN elements may provide solutions that will cater to the possible dynamics of collective communication among computational endpoints. 
 
 
 # Authentication {#auth}
@@ -113,14 +151,13 @@ The realisation of COIN legitimizes and actively promotes that data transmitted 
 This opens the door for foul play as all intermediate network elements -- no matter if they are malicious or misbehaving by accident, COIN elements, or 'traditional' middleboxes -- could simply start altering parts of the original data and potentially cause harm to the end-hosts.
 What is needed are mechanisms with which the receiving host can verify (a) how and (b) by whom the data has been altered on the way.
 In fact, these might very well be two distinct mechanisms as one (a) only focusses on the changes that are made to the data while (b) requires a scheme with which COIN elements can be uniquely identified (could very well relate to {{addressing}}) and subsequently authenticated.
-The Proof of Transit {{I-D.draft-ietf-sfc-proof-of-transit-06}} concept of the SFC WG could be applicable for proving that a packet has indeed passed the desired COIN elements, although it does not provide means to validate which changes were made by the known nodes.  
+The Proof of Transit {{I-D.draft-ietf-sfc-proof-of-transit-07}} concept of the SFC WG could be applicable for proving that a packet has indeed passed the desired COIN elements, although it does not provide means to validate which changes were made by the known nodes.  
 
 Main challenges/questions are:
 
 1. How are changes to the data within the network communicated to the end-hosts?
 2. How are the COIN elements that are responsible for the changes communicated to the end-hosts?
 3. How are changes made by the COIN elements authenticated? 
-
 
 # Security {#sec}
 Many early COIN concepts require an unencrypted transmission of data.
@@ -129,13 +166,11 @@ QUIC, e.g., encrypts all payload data and almost all header content already insi
 This makes current COIN concepts infeasible in settings where QUIC connections are used as the COIN elements do not have access to any packet content.
 Using COIN thus also depends on how well security mechanisms like encryption can be integrated into COIN frameworks.
 
-Together, the four aspects presented in {{addressing}} to {{sec}} form a set of fundamental properties for a basic transport-compatible realization of COIN.
-In the following, we briefly discuss selected additional transport features to create awareness for the multifaceted interaction between the transport protocols and COIN elements. 
 
-# Advanced Transport Features {#features}
+# Transport Features {#features}
 Depending on application needs, different transport protocols provide different features.
 These features shape the behavior of the protocol and have to be taken into account when developing COIN functionality.
-In this section, we focus on the impact of reliability as well as flow and congestion control.
+In this section, we focus on the impact of reliability as well as flow and congestion control to create awareness for the multifaceted interaction between the transport protocols and COIN elements.
 
 ## Reliability
 Applications require a reliable transport whenever it is important that all data is transmitted successfully.
@@ -155,14 +190,24 @@ The main question arising from this is: to what extent should COIN elements be c
 
 When incorporating COIN elements into the retransmission mechanisms, it is also an interesting question whether it should be possible to request or perform retransmissions from COIN elements. 
 Considering a setting with COIN elements that are capable of detecting missing packets and retransmission requests, it might improve the overall performance if the COIN element directly requests or performs the retransmission instead of forwarding the packet/request through the complete sequence of elements.
-In both cases, the aforementioned storage capabilities are relevant so that the COIN elements can store enough information.
+This is especially interesting in the context of collective communication where reliability mechanisms could make use of the multi-source nature of the communication and leverage the presence of many COIN elements in the network.
+In all cases, the aforementioned storage capabilities are relevant so that the COIN elements can store enough information.
 The general question, i.e., which nodes in the sequence should do the retransmission, has already been worked on in the context of multicast transport protocols.
 
 Depending on the extent of realization of the presented retransmission features, COIN elements might almost have to implement some of TCP's state to fulfil their tasks.
 Considering that different COIN elements have different computational and storage capacities, it is very likely that not every form of transport integration into COIN can be supported by every available COIN platform.
 The choice of devices included into the communication will hence certainly affect the types of transport protocols that can be operated on the COIN networks. 
 
+Another aspect to consider is the 'unit' that needs to be reliably transferred.
+In stream-based transport protocols, such as TCP, packets represent the smallest unit of transfer.
+However, different choices in the flow granularity and a possible move to larger-than-a-packet messages or transactions, as suggested in {{flowgranularity}}, might make other approaches to reliability viable that operate on the basis of such messages.
+
+
 Challenges/questions regarding reliability are:
+
+1. What is the unit of reliable transfer?
+
+2. How to utilize more than one computational endpoint in the reliability mechanism?
 
 1. Should COIN elements be aware of retransmissions?
 
@@ -187,8 +232,6 @@ Challenges/questions regarding reliability are:
 11. How much transport state do COIN elements have to keep?
 
 
-Another aspect is flow and congestion control to avoid overloading the receiving end-host and the network.
-
 ## Flow/Congestion Control
 TCP incorporates mechanisms to avoid overloading the receiving host (flow control) and the network (congestion control) and determines its sending rate as the minimum value of what both mechanisms determine as feasible for the system.
 This approach is based on the notion that computing and forwarding hosts are separated and is challenged by the inclusion of COIN elements, i.e., computing nodes in the network.
@@ -203,6 +246,13 @@ They then decrease their sending rate once and start to increase it again.
 In this traditional two-fold approach, loss, delay, or any other congestion signal (depending on the congestion control algorithm) induced by COIN elements (only in case that they are the bottleneck) is interpreted as network congestion and thus accounted for in the congestion control mechanism.
 This means that the sending end-host may repeatedly overload the computational capabilities of the COIN elements when probing for the current network conditions instead of respecting general device capabilities as is done by flow control.
 
+In the context of COIN, the granularity of flows may see a division into sub-flows or messages to better represent the used computational semantic as discussed in {{flowgranularity}}.
+This raises the question whether flow and congestion control should be applied to longer term flows (of many sub-flows or messages) or directly to sub-flows.
+Eventually, this could possibly lead to a separation of error control (for sub-flows) and flow control (for longer-term flows).
+A subsequent challenge is then how to reconcile the possible volatile nature of sub-flow relations (between computational endpoints) with the longer-term relationship between network endpoints that will see a flow of messages between them. 
+This is particularly pertinent in collective communication scenarios, where many forward unicast sub-flows may lead to a single multicast sub-flow response albeit only for that one response message. 
+Reconciling the various unicast resource regimes into a single (ephemeral) multicast one poses a significant challenge.  
+
 Consequently, the question arises whether COIN elements should be able to participate in end-to-end flow control.
 
 Main challenges/questions are:
@@ -212,18 +262,9 @@ Main challenges/questions are:
 2. Should COIN elements be able to participate in end-to-end flow control?
 
 3. How could a resource constraint scheme similar to flow control be realized for COIN elements?
+
+4. How to reconcile message-level flexibility in transport relations between computational endpoints with longer-term resource stability between network elements participating in the computational scenario?
  
-
-All in all, there is a wide range of non-essential transport features which offer improved performance in certain settings and for certain application combinations.
-However, as presented, it is likely that not all of the features/types of transport protocols can be supported on every COIN element.
-It might make sense to define different classes of COIN-ready transport protocols which can then be deployed depending on the concretely available networking/hardware elements.
-Alternatively, each of the features could be treated separately and they could then be composed based on the demands of an application at-hand.
-
-Overall, the general question summarizing all of the other challenges/question is:
-
-Which transport features should be supported by COIN, how can they be identified, and how can they be provided to application designers?
-
-
 
 # Security Considerations
 COIN changes the traditional paradigm of a simple network and the corresponding end-to-end principle as it encourages computations in/by the network.
@@ -238,5 +279,16 @@ N/A
 # Conclusion
 The advent of COIN comes with many new use cases and promises improved solutions for various problems.
 It is, however, not directly compatible with the end-to-end nature of transport protocols.
-To enable a transport-based communication, it is thus important to answer key questions regarding COIN and transport protocols, some of which are raised in this document.
+To enable a transport-based communication, it is thus important to answer key questions regarding COIN and transport protocols.
+
+All in all, there is a wide range of non-essential transport features which offer improved performance in certain settings and for certain application combinations.
+However, as presented, it is likely that not all of the features/types of transport protocols can be supported on every COIN element.
+It might make sense to define different classes of COIN-ready transport protocols which can then be deployed depending on the concretely available networking/hardware elements.
+Alternatively, each of the features could be treated separately and they could then be composed based on the demands of an application at-hand.
+
+Overall, the general question summarizing all of the other challenges/question is:
+
+Which transport features should be supported by COIN, how can they be identified, and how can they be provided to application designers?
+
+
 
