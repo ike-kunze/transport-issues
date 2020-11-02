@@ -5,7 +5,9 @@
 COINRG                                                          I. Kunze
 Internet-Draft                                                 K. Wehrle
 Intended status: Informational                    RWTH Aachen University
-Expires: 3 May 2021                                      30 October 2020
+Expires: 6 May 2021                                           D. Trossen
+                                    Huawei Technologies Duesseldorf GmbH
+                                                         2 November 2020
 
 
        Transport Protocol Issues of In-Network Computing Systems
@@ -40,24 +42,25 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 May 2021.
+   This Internet-Draft will expire on 6 May 2021.
 
 Copyright Notice
 
    Copyright (c) 2020 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
+
+
+
+
+Kunze, et al.              Expires 6 May 2021                   [Page 1]
+
+Internet-Draft            COIN Transport Issues            November 2020
+
+
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents (https://trustee.ietf.org/
    license-info) in effect on the date of publication of this document.
-
-
-
-Kunze & Wehrle             Expires 3 May 2021                   [Page 1]
-
-Internet-Draft            COIN Transport Issues             October 2020
-
-
    Please review these documents carefully, as they describe your rights
    and restrictions with respect to this document.  Code Components
    extracted from this document must include Simplified BSD License text
@@ -106,12 +109,9 @@ Table of Contents
 
 
 
-
-
-
-Kunze & Wehrle             Expires 3 May 2021                   [Page 2]
+Kunze, et al.              Expires 6 May 2021                   [Page 2]
 
-Internet-Draft            COIN Transport Issues             October 2020
+Internet-Draft            COIN Transport Issues            November 2020
 
 
    This draft discusses potential problems for traditional transport
@@ -165,9 +165,9 @@ Internet-Draft            COIN Transport Issues             October 2020
 
 
 
-Kunze & Wehrle             Expires 3 May 2021                   [Page 3]
+Kunze, et al.              Expires 6 May 2021                   [Page 3]
 
-Internet-Draft            COIN Transport Issues             October 2020
+Internet-Draft            COIN Transport Issues            November 2020
 
 
    2.  How can the treatment of the transmitted data, i.e., which COIN
@@ -221,9 +221,9 @@ Internet-Draft            COIN Transport Issues             October 2020
 
 
 
-Kunze & Wehrle             Expires 3 May 2021                   [Page 4]
+Kunze, et al.              Expires 6 May 2021                   [Page 4]
 
-Internet-Draft            COIN Transport Issues             October 2020
+Internet-Draft            COIN Transport Issues            November 2020
 
 
    Along those options above, the question arises how shorter-term
@@ -277,9 +277,9 @@ Internet-Draft            COIN Transport Issues             October 2020
 
 
 
-Kunze & Wehrle             Expires 3 May 2021                   [Page 5]
+Kunze, et al.              Expires 6 May 2021                   [Page 5]
 
-Internet-Draft            COIN Transport Issues             October 2020
+Internet-Draft            COIN Transport Issues            November 2020
 
 
    receiving host can verify (a) how and (b) by whom the data has been
@@ -288,7 +288,7 @@ Internet-Draft            COIN Transport Issues             October 2020
    the data while (b) requires a scheme with which COIN elements can be
    uniquely identified (could very well relate to Section 3) and
    subsequently authenticated.  The Proof of Transit
-   [I-D.draft-ietf-sfc-proof-of-transit-07] concept of the SFC WG could
+   [I-D.draft-ietf-sfc-proof-of-transit-08] concept of the SFC WG could
    be applicable for proving that a packet has indeed passed the desired
    COIN elements, although it does not provide means to validate which
    changes were made by the known nodes.
@@ -333,9 +333,9 @@ Internet-Draft            COIN Transport Issues             October 2020
 
 
 
-Kunze & Wehrle             Expires 3 May 2021                   [Page 6]
+Kunze, et al.              Expires 6 May 2021                   [Page 6]
 
-Internet-Draft            COIN Transport Issues             October 2020
+Internet-Draft            COIN Transport Issues            November 2020
 
 
 8.1.  Reliability
@@ -385,18 +385,20 @@ Internet-Draft            COIN Transport Issues             October 2020
    complete sequence of elements.  This is especially interesting in the
    context of collective communication where reliability mechanisms
    could make use of the multi-source nature of the communication and
-   leverage the presence of many COIN elements in the network.  In all
+   leverage the presence of many COIN elements in the network, for
 
 
 
-Kunze & Wehrle             Expires 3 May 2021                   [Page 7]
+Kunze, et al.              Expires 6 May 2021                   [Page 7]
 
-Internet-Draft            COIN Transport Issues             October 2020
+Internet-Draft            COIN Transport Issues            November 2020
 
 
-   cases, the aforementioned storage capabilities are relevant so that
-   the COIN elements can store enough information.  The general
-   question, i.e., which nodes in the sequence should do the
+   instance by using network coding techniques, which in turn may
+   benefit from COIN elements participating in the reliability
+   mechanism.  In all cases, the aforementioned storage capabilities are
+   relevant so that the COIN elements can store enough information.  The
+   general question, i.e., which nodes in the sequence should do the
    retransmission, has already been worked on in the context of
    multicast transport protocols.
 
@@ -439,16 +441,17 @@ Internet-Draft            COIN Transport Issues             October 2020
    7.   How much storage capabilities are required for incorporating
         retransmissions?
 
+
+
+
+
+Kunze, et al.              Expires 6 May 2021                   [Page 8]
+
+Internet-Draft            COIN Transport Issues            November 2020
+
+
    8.   How can COIN elements incorporate missing packets into their
         computations?
-
-
-
-
-Kunze & Wehrle             Expires 3 May 2021                   [Page 8]
-
-Internet-Draft            COIN Transport Issues             October 2020
-
 
    9.   How to deal with state changes in COIN elements caused by data
         lost later in the communication chain and then retransmitted?
@@ -495,17 +498,17 @@ Internet-Draft            COIN Transport Issues             October 2020
    elements when probing for the current network conditions instead of
    respecting general device capabilities as is done by flow control.
 
+
+
+
+Kunze, et al.              Expires 6 May 2021                   [Page 9]
+
+Internet-Draft            COIN Transport Issues            November 2020
+
+
    In the context of COIN, the granularity of flows may see a division
    into sub-flows or messages to better represent the used computational
    semantic as discussed in Section 4.  This raises the question whether
-
-
-
-Kunze & Wehrle             Expires 3 May 2021                   [Page 9]
-
-Internet-Draft            COIN Transport Issues             October 2020
-
-
    flow and congestion control should be applied to longer term flows
    (of many sub-flows or messages) or directly to sub-flows.
    Eventually, this could possibly lead to a separation of error control
@@ -554,12 +557,9 @@ Internet-Draft            COIN Transport Issues             October 2020
 
 
 
-
-
-
-Kunze & Wehrle             Expires 3 May 2021                  [Page 10]
+Kunze, et al.              Expires 6 May 2021                  [Page 10]
 
-Internet-Draft            COIN Transport Issues             October 2020
+Internet-Draft            COIN Transport Issues            November 2020
 
 
 10.  IANA Considerations
@@ -592,12 +592,12 @@ Internet-Draft            COIN Transport Issues             October 2020
 
 12.  Informative References
 
-   [I-D.draft-ietf-sfc-proof-of-transit-07]
+   [I-D.draft-ietf-sfc-proof-of-transit-08]
               Brockners, F., Bhandari, S., Mizrahi, T., Dara, S., and S.
               Youell, "Proof of Transit", Work in Progress, Internet-
-              Draft, draft-ietf-sfc-proof-of-transit-07, 25 October
+              Draft, draft-ietf-sfc-proof-of-transit-08, 1 November
               2020, <http://www.ietf.org/internet-drafts/draft-ietf-sfc-
-              proof-of-transit-07.txt>.
+              proof-of-transit-08.txt>.
 
    [I-D.draft-kutscher-coinrg-dir-02]
               Kutscher, D., Karkkainen, T., and J. Ott, "Directions for
@@ -613,9 +613,9 @@ Internet-Draft            COIN Transport Issues             October 2020
 
 
 
-Kunze & Wehrle             Expires 3 May 2021                  [Page 11]
+Kunze, et al.              Expires 6 May 2021                  [Page 11]
 
-Internet-Draft            COIN Transport Issues             October 2020
+Internet-Draft            COIN Transport Issues            November 2020
 
 
               appcentres-03, 23 October 2020, <http://www.ietf.org/
@@ -638,7 +638,6 @@ Authors' Addresses
    D-52074 Aachen
    Germany
 
-   Phone: +49-241-80-21422
    Email: kunze@comsys.rwth-aachen.de
 
 
@@ -648,10 +647,16 @@ Authors' Addresses
    D-52074 Aachen
    Germany
 
-   Phone: +49-241-80-21401
    Email: wehrle@comsys.rwth-aachen.de
 
 
+   Dirk Trossen
+   Huawei Technologies Duesseldorf GmbH
+   Riesstr. 25C
+   D-80992 Munich
+   Germany
+
+   Email: Dirk.Trossen@Huawei.com
 
 
 
@@ -664,9 +669,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-Kunze & Wehrle             Expires 3 May 2021                  [Page 12]
+Kunze, et al.              Expires 6 May 2021                  [Page 12]

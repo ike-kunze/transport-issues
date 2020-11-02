@@ -21,7 +21,6 @@ author:
     city: Aachen
     code: D-52074
     country: Germany
-    phone: +49-241-80-21422
 -
     ins: K. Wehrle
     name: Klaus Wehrle
@@ -31,14 +30,22 @@ author:
     city: Aachen
     code: D-52074
     country: Germany
-    phone: +49-241-80-21401
+-
+    ins: D. Trossen
+    name: Dirk Trossen
+    org: Huawei Technologies Duesseldorf GmbH
+    email: Dirk.Trossen@Huawei.com
+    street: Riesstr. 25C
+    city: Munich
+    code: D-80992
+    country: Germany
 
 
 normative:
 
 informative:
   I-D.draft-kutscher-coinrg-dir-02:
-  I-D.draft-ietf-sfc-proof-of-transit-07:
+  I-D.draft-ietf-sfc-proof-of-transit-08:
   I-D.draft-sarathchandra-coin-appcentres-03:
   RFC0768:
   RFC0793:
@@ -151,7 +158,7 @@ The realisation of COIN legitimizes and actively promotes that data transmitted 
 This opens the door for foul play as all intermediate network elements -- no matter if they are malicious or misbehaving by accident, COIN elements, or 'traditional' middleboxes -- could simply start altering parts of the original data and potentially cause harm to the end-hosts.
 What is needed are mechanisms with which the receiving host can verify (a) how and (b) by whom the data has been altered on the way.
 In fact, these might very well be two distinct mechanisms as one (a) only focusses on the changes that are made to the data while (b) requires a scheme with which COIN elements can be uniquely identified (could very well relate to {{addressing}}) and subsequently authenticated.
-The Proof of Transit {{I-D.draft-ietf-sfc-proof-of-transit-07}} concept of the SFC WG could be applicable for proving that a packet has indeed passed the desired COIN elements, although it does not provide means to validate which changes were made by the known nodes.  
+The Proof of Transit {{I-D.draft-ietf-sfc-proof-of-transit-08}} concept of the SFC WG could be applicable for proving that a packet has indeed passed the desired COIN elements, although it does not provide means to validate which changes were made by the known nodes.  
 
 Main challenges/questions are:
 
@@ -190,7 +197,7 @@ The main question arising from this is: to what extent should COIN elements be c
 
 When incorporating COIN elements into the retransmission mechanisms, it is also an interesting question whether it should be possible to request or perform retransmissions from COIN elements. 
 Considering a setting with COIN elements that are capable of detecting missing packets and retransmission requests, it might improve the overall performance if the COIN element directly requests or performs the retransmission instead of forwarding the packet/request through the complete sequence of elements.
-This is especially interesting in the context of collective communication where reliability mechanisms could make use of the multi-source nature of the communication and leverage the presence of many COIN elements in the network.
+This is especially interesting in the context of collective communication where reliability mechanisms could make use of the multi-source nature of the communication and leverage the presence of many COIN elements in the network, for instance by using network coding techniques, which in turn may benefit from COIN elements participating in the reliability mechanism.
 In all cases, the aforementioned storage capabilities are relevant so that the COIN elements can store enough information.
 The general question, i.e., which nodes in the sequence should do the retransmission, has already been worked on in the context of multicast transport protocols.
 
