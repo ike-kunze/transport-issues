@@ -45,11 +45,13 @@ normative:
 
 informative:
   I-D.draft-kutscher-coinrg-dir-02:
-  SFC-proof-of-transit: I-D.draft-ietf-sfc-proof-of-transit-08
+  SFC-PoT: I-D.draft-ietf-sfc-proof-of-transit-08
   I-D.draft-sarathchandra-coin-appcentres-03:
+  I-D.draft-asai-tsvwg-transport-review-00:
   UDP: RFC0768
   TCP: RFC0793
   SCTP: RFC4960
+  SCTP-PR: RFC3758
   CoAP: RFC7252
   SR: RFC8402
   SFC-PS: RFC7498
@@ -206,7 +208,6 @@ The realisation of COIN legitimizes and actively promotes that data transmitted 
 This opens the door for foul play as all intermediate network elements -- no matter if they are malicious or misbehaving by accident, COIN elements, or 'traditional' middleboxes -- could simply start altering parts of the original data and potentially cause harm to the end-hosts.
 What is needed are mechanisms with which the receiving host can verify (a) how and (b) by whom the data has been altered on the way.
 In fact, these might very well be two distinct mechanisms as one (a) only focusses on the changes that are made to the data while (b) requires a scheme with which COIN elements can be uniquely identified (could very well relate to {{addressing}}) and subsequently authenticated.
-The Proof of Transit {{SFC-proof-of-transit}} concept could be applicable for proving that a packet has indeed passed the desired COIN elements, although it does not provide means to validate which changes were made by the known nodes.  
 
 ## Research questions and challenges
 
@@ -216,8 +217,11 @@ The Proof of Transit {{SFC-proof-of-transit}} concept could be applicable for pr
 
 ## Related concepts and efforts
 
-- Proof of Transit {{SFC-proof-of-transit}}
+- Proof of Transit {{SFC-PoT}}
 
+The Proof of Transit concept of the SFC WG allows for proving that packets have passed a defined path.
+Using this concept, it could at least be possible to make sure that a packet has indeed passed the desired COIN elements.
+However, it does not provide means to validate which changes were made by the known nodes.  
 
 
 # Security {#sec}
@@ -277,33 +281,50 @@ However, different choices in the flow granularity and a possible move to larger
 
 2. How to utilize more than one computational endpoint in the reliability mechanism?
 
-1. Should COIN elements be aware of retransmissions?
+3. Should COIN elements be aware of retransmissions?
 
-2. How can COIN elements identify missing packets or retransmissions?
+4. How can COIN elements identify missing packets or retransmissions?
 
-3. Should COIN elements be explicitly notified about retransmissions? 
+5. Should COIN elements be explicitly notified about retransmissions? 
 
-4. To what extent should COIN elements be capable of incorporating retransmissions into their computation schemes?
+6. To what extent should COIN elements be capable of incorporating retransmissions into their computation schemes?
 
-5. How much storage capabilities are required for incorporating retransmissions?
+7. How much storage capabilities are required for incorporating retransmissions?
 
-6. How can COIN elements incorporate missing packets into their computations?
+8. How can COIN elements incorporate missing packets into their computations?
 
-7. How to deal with state changes in COIN elements caused by data lost later in the communication chain and then retransmitted?
+9. How to deal with state changes in COIN elements caused by data lost later in the communication chain and then retransmitted?
 
-8. Should COIN elements be capable of requesting retransmissions/answering retransmission requests?
+10. Should COIN elements be capable of requesting retransmissions/answering retransmission requests?
 
-9. Which devices should perform retransmissions?
+11. Which devices should perform retransmissions?
 
-10. Do COIN elements have to keep transport state?
+12. Do COIN elements have to keep transport state?
 
-11. How much transport state do COIN elements have to keep?
+13. How much transport state do COIN elements have to keep?
 
 ### Related concepts and efforts
 
+- Transmission Control Protocol {{TCP}}
+
+TCP provides reliable, ordered, and error-checked delivery of a byte stream.
+As such, TCP does not allow for payload changes.
+This means that COIN elements could only make changes to lower header information.
+
 - Stream Control Transmission Protocol {{SCTP}}
 
+SCTP provides ensures a reliable exchange of messages.
+In contrast to TCP, it decouples reliability from in-order delivery and thus allows for sending messages without ordering.
+Additionally, it has also been extended to provide partial reliability, i.e., controlling the desired reliability on a per-message basis {{SCTP-PR}}.
+
 - Constrained Application Protocol {{CoAP}}
+
+CoAP is a specialized protocol targeting nodes that are constrained, e.g., in terms of compute power or available bandwidth.
+It is message-based and distinguishes between confirmable and non-confirmable messages, i.e., similar to SCTP, allows for controlling the reliability on a per-message basis.
+
+- User Datagram Protocol {{UDP}}
+
+UDP is a message-based protocol that does not provide any guarantees regarding reliability to the application layer.
 
 
 ## Flow/Congestion Control
@@ -342,37 +363,70 @@ Consequently, the question arises whether COIN elements should be able to partic
 
 ### Related concepts and efforts
 
-To be added.
+- Transmission Control Protocol {{TCP}}
+
+TCP implements flow and congestion control.
+The traffic is controlled using TCP's receiver and congestion windows.
+
+- Separation of Data Path and Data Flow
+
+{{I-D.draft-asai-tsvwg-transport-review-00}} proposes to explicitly divide transport protocols into two parts: a data path and a data flow layer.
+Essentially, the data path layer is responsible for handling path-related tasks, such as congestion control, and as such spans multiple flows.
+The data flow layer on top then handles flow-related tasks such as retransmissions and flow control.
+As indicated by the early stage of the document, the concrete structure is still up for debate.
+Yet, explicitly dividing congestion and flow control could give the opportunity to devise more sophisticated approaches to incorporate COIN elements.
+
  
 # Overview of related research and standardization efforts
 
+- Segment and Source Routing (see {{SPRING-WG}})
+
+Source Routing allows a sender to (partially) define the route of a packet through the network.
+This mechanism can be leveraged to steer the traffic along COIN nodes and thus trigger desired COIN functionality.
+The SPRING WG is scoped to define procedures around Segment Routing {{SR}}, a modern variant of Source Routing for IPv6 and MPLS.
+
+- (Service/Network) Function Chaining/Composition  (see {{SFC-WG}})
+
+Service Function Chaining (SFC) describes a process to first define an ordered list of service functions (e.g., firewalls) and then steer traffic through these functions {{SFC-PS}}. 
+The SFC WG is tasked with defining suitable orchestration techniques for SFC.
+The existing SFC architecture {{SFC-Arch}} and the Network Service Header {{SFC-NSH}} already provide fundamental mechanisms.
+Interpreting COIN functionality as service functions could make SFC applicable to COIN.
+
+
+
 ~~~~~~~~
-+-----------------+-------------------------------------------------+
-| Issue           | Efforts                                         |
-+=================+=================================================+
-| Addressing      | Segment and Source Routing                      |
-|                 | -> [SPRING-WG]                                  |
-|                 | (Service/Network) Function Chaining/Composition |
-|                 | -> [SFC-WG]                                     |
-+-----------------+-------------------------------------------------+
-| Flow            | Proof of Transit [SFC],[SFC-proof-of-transit]   |
-| Granularity     |                                                 |
-|                 |                                                 |
-+-----------------+-------------------------------------------------+
-| Collective      | [ICNRG]                                         |
-| Communication   |                                                 |
-+-----------------+-------------------------------------------------+
-| Authentication  |                                                 |
-+-----------------+-------------------------------------------------+
-| Transport       |                                                 |
-| Features        |                                                 |
-+- - - - - - - - -+- - - - - - - - - - - - - - - - - - - - - - - - -+
-| Reliability     | Stream Control Transmission Protocol [SCTP]     |
-|                 | Constrained Application Protocol [CoAP]         |
-+- - - - - - - - -+- - - - - - - - - - - - - - - - - - - - - - - - -+
-| Flow/Congestion |                                                 |
-| Control         |                                                 |
-+-----------------+-------------------------------------------------+
++-----------------+--------------------------------------------------+
+| Issue           | Efforts                                          |
++=================+==================================================+
+| Addressing      | Segment and Source Routing:                      |
+|                 | - [SPRING-WG]                                    |
+|                 | - Segment Routing [SR]                           |
+|                 | (Service/Network) Function Chaining/Composition: |
+|                 | - [SFC-WG]                                       |
+|                 | - SFC Problem Statement [SFC-PS]                 |
+|                 | - SFC Architecture [SFC-Arch]                    |
+|                 | - SFC Network Service Header [SFC-NSH]           |
++-----------------+--------------------------------------------------+
+| Flow            |                                                  |
+| Granularity     |                                                  |
+|                 |                                                  |
++-----------------+--------------------------------------------------+
+| Collective      | [ICNRG]                                          |
+| Communication   |                                                  |
++-----------------+--------------------------------------------------+
+| Authentication  | SFC Proof of Transit [SFC-PoT]                   |
++-----------------+--------------------------------------------------+
+| Transport       |                                                  |
+| Features        |                                                  |
++- - - - - - - - -+- - - - - - - - - - - - - - - - - - - - - - - - - +
+| Reliability     | Transmission Control Protocol [TCP]              |
+|                 | Stream Control Transmission Protocol [SCTP]      |
+|                 | Constrained Application Protocol [CoAP]          |
+|                 | User Datagram Protocol [UDP]                     |
++- - - - - - - - -+- - - - - - - - - - - - - - - - - - - - - - - - - +
+| Flow/Congestion | [I-D.draft-asai-tsvwg-transport-review-00]       |
+| Control         |                                                  |
++-----------------+--------------------------------------------------+
 
 ~~~~~~~~~~
 {: #relatedefforts title="Related research and standardization efforts."}
