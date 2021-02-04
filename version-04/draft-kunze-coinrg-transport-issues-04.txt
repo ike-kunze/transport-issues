@@ -5,9 +5,9 @@
 COINRG                                                          I. Kunze
 Internet-Draft                                                 K. Wehrle
 Intended status: Informational                    RWTH Aachen University
-Expires: 5 August 2021                                        D. Trossen
-                                    Huawei Technologies Duesseldorf GmbH
-                                                         1 February 2021
+Expires: 8 August 2021                                        D. Trossen
+                                                                  Huawei
+                                                         4 February 2021
 
 
        Transport Protocol Issues of In-Network Computing Systems
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 August 2021.
+   This Internet-Draft will expire on 8 August 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Kunze, et al.             Expires 5 August 2021                 [Page 1]
+Kunze, et al.             Expires 8 August 2021                 [Page 1]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -71,34 +71,34 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
    2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   3
-   3.  Addressing  . . . . . . . . . . . . . . . . . . . . . . . . .   3
+   3.  Addressing  . . . . . . . . . . . . . . . . . . . . . . . . .   4
      3.1.  Research questions and challenges . . . . . . . . . . . .   4
-     3.2.  Related concepts and efforts  . . . . . . . . . . . . . .   4
+     3.2.  Related concepts and efforts  . . . . . . . . . . . . . .   5
    4.  Flow granularity  . . . . . . . . . . . . . . . . . . . . . .   5
      4.1.  Research questions and challenges . . . . . . . . . . . .   6
-     4.2.  Related concepts and efforts  . . . . . . . . . . . . . .   6
-   5.  Collective Communication  . . . . . . . . . . . . . . . . . .   6
-     5.1.  Research questions and challenges . . . . . . . . . . . .   6
-     5.2.  Related concepts and efforts  . . . . . . . . . . . . . .   7
-   6.  Authentication  . . . . . . . . . . . . . . . . . . . . . . .   7
-     6.1.  Research questions and challenges . . . . . . . . . . . .   7
-     6.2.  Related concepts and efforts  . . . . . . . . . . . . . .   7
-   7.  Security  . . . . . . . . . . . . . . . . . . . . . . . . . .   7
-     7.1.  Research questions and challenges . . . . . . . . . . . .   8
-     7.2.  Related concepts and efforts  . . . . . . . . . . . . . .   8
-   8.  Transport Features  . . . . . . . . . . . . . . . . . . . . .   8
-     8.1.  Reliability . . . . . . . . . . . . . . . . . . . . . . .   8
-       8.1.1.  Research questions and challenges . . . . . . . . . .  10
-       8.1.2.  Related concepts and efforts  . . . . . . . . . . . .  10
-     8.2.  Flow/Congestion Control . . . . . . . . . . . . . . . . .  11
-       8.2.1.  Research questions and challenges . . . . . . . . . .  12
-       8.2.2.  Related concepts and efforts  . . . . . . . . . . . .  12
-   9.  Overview of related research and standardization efforts  . .  13
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .  14
-   11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  15
-   12. Conclusion  . . . . . . . . . . . . . . . . . . . . . . . . .  15
-   13. Informative References  . . . . . . . . . . . . . . . . . . .  15
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  17
+     4.2.  Related concepts and efforts  . . . . . . . . . . . . . .   7
+   5.  Collective Communication  . . . . . . . . . . . . . . . . . .   7
+     5.1.  Research questions and challenges . . . . . . . . . . . .   8
+     5.2.  Related concepts and efforts  . . . . . . . . . . . . . .   8
+   6.  Authentication  . . . . . . . . . . . . . . . . . . . . . . .   9
+     6.1.  Research questions and challenges . . . . . . . . . . . .   9
+     6.2.  Related concepts and efforts  . . . . . . . . . . . . . .   9
+   7.  Security  . . . . . . . . . . . . . . . . . . . . . . . . . .   9
+     7.1.  Research questions and challenges . . . . . . . . . . . .  10
+     7.2.  Related concepts and efforts  . . . . . . . . . . . . . .  10
+   8.  Transport Features  . . . . . . . . . . . . . . . . . . . . .  10
+     8.1.  Reliability . . . . . . . . . . . . . . . . . . . . . . .  10
+       8.1.1.  Research questions and challenges . . . . . . . . . .  11
+       8.1.2.  Related concepts and efforts  . . . . . . . . . . . .  12
+     8.2.  Flow/Congestion Control . . . . . . . . . . . . . . . . .  13
+       8.2.1.  Research questions and challenges . . . . . . . . . .  14
+       8.2.2.  Related concepts and efforts  . . . . . . . . . . . .  14
+   9.  Summary of related research and standardization efforts . . .  15
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .  16
+   11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  16
+   12. Conclusion  . . . . . . . . . . . . . . . . . . . . . . . . .  16
+   13. Informative References  . . . . . . . . . . . . . . . . . . .  16
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  19
 
 
 
@@ -109,45 +109,66 @@ Table of Contents
 
 
 
-Kunze, et al.             Expires 5 August 2021                 [Page 2]
+Kunze, et al.             Expires 8 August 2021                 [Page 2]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
 
 1.  Introduction
 
-   A fundamental design choice of the Internet is that the network
-   should be kept as simple as possible while complexity in the form of
-   processing should be located on end-hosts at the edges of the
-   network.  This choice is reflected in the end-to-end principle which
-   states that end-hosts directly address each other and perform most,
-   if not all, relevant computations.  The network, on the other hand,
-   only performs transparent, reasonable operations which is typically
-   interpreted as it only delivering the packets without modifying them.
-   Transport protocols are consequently designed to facilitate the
-   direct communication between end-hosts.
+   A fundamental consideration for the Internet's design is that
+   functions can be implemented correctly and completely only with the
+   knowledge of the applications, as formulated in [E2E].  This choice
+   is reflected in the end-to-end (E2E) principle in that end-hosts
+   perform most, if not all, relevant computations.  The network only
+   performs transparent, reasonable operations such as delivering the
+   packets without modifying them with transport protocols designed to
+   facilitate the direct communication between those end-hosts.
 
-   In practice, the end-to-end principle is often violated by
-   intransparent middleboxes which alter transmitted packets, e.g., by
-   dropping or changing header fields.  Contrary to that, computing in
-   the network (COIN) encourages explicit computations in the network
-   which introduces an intertwined complexity as the computations on the
-   end-hosts depend on the functionality deployed in the network.  It
-   further challenges traditional ``end-to-end'' transport protocols as
-   they are not designed to address in-network computation entities or
-   to include more than two devices into a communication.  Some of these
-   problems are already presented in [I-D.draft-kutscher-coinrg-dir-02].
+   [E2E], however, does consider that "sometimes an incomplete version
+   of the function provided by the communication system may be useful as
+   a performance enhancement".  We link this consideration to the field
+   of computing in the networking (COIN), which encourages explicit
+   computations in the network, introducing an intertwined complexity as
+   the computations on the end-hosts depend on the functionality
+   deployed in the network.  Such thinking, to some extent, challenges
+   traditional ``end-to-end'' transport protocols as they are not
+   designed to address in-network computation entities or to include
+   more than two devices into a communication, even for inherent
+   functionalities provided by the transport protocol.  Some of
+   resulting problems when considering in-network computation in the
+   context of an overall E2E problem are already presented in
+   [I-D.draft-kutscher-coinrg-dir-02].
 
-   This draft discusses potential problems for traditional transport
-   protocols in more detail to raise questions that the COIN community
-   needs to solve before a widespread application of COIN functionality
-   is sensible.  Collaboration with other IRTF and IETF groups, such as
-   PANRG, the IETF transport area in general, or the LOOPS BOF, can help
-   in finding suitable solutions.
+   This draft focusses on the potential opportunities and research
+   questions for the design of transport protocols that may assume the
+   availability of in-network computing capabilities, including the
+   possible collaboration with other IRTF and IETF groups, such as PAN
+   RG, the IETF transport area in general, or the LOOPS BOF, for finding
+   suitable solutions.
 
 2.  Terminology
 
    COIN element: Device on which COIN functionality can be deployed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Kunze, et al.             Expires 8 August 2021                 [Page 3]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
 
 3.  Addressing
 
@@ -161,14 +182,6 @@ Internet-Draft            COIN Transport Issues            February 2021
    functionality.  Considering larger scales, this approach of manually
    adjusting traffic patterns and applications to correctly incorporate
    changes made by the network is not feasible.
-
-
-
-
-Kunze, et al.             Expires 5 August 2021                 [Page 3]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
 
    What is needed are ways to specify which kind of functionality should
    be applied to the transmitted data on the path inside the network and
@@ -205,6 +218,14 @@ Internet-Draft            COIN Transport Issues            February 2021
        integrated into the systems without breaking the COIN or legacy
        functionality?
 
+
+
+
+Kunze, et al.             Expires 8 August 2021                 [Page 4]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
+
 3.2.  Related concepts and efforts
 
    *  Segment and Source Routing (see [SPRING-WG])
@@ -218,21 +239,28 @@ Internet-Draft            COIN Transport Issues            February 2021
 
    *  (Service/Network) Function Chaining/Composition (see [SFC-WG])
 
-
-
-
-Kunze, et al.             Expires 5 August 2021                 [Page 4]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
-
    Service Function Chaining (SFC) describes a process to first define
    an ordered list of service functions (e.g., firewalls) and then steer
    traffic through these functions [SFC-PS].  The SFC WG is tasked with
    defining suitable orchestration techniques for SFC.  The existing SFC
    architecture [SFC-Arch] and the Network Service Header [SFC-NSH]
    already provide fundamental mechanisms.  Interpreting COIN
-   functionality as service functions could make SFC applicable to COIN.
+   functionality as service functions could make SFC applicable to COIN
+   at Layer 2 and Layer 3, but also at name-based, e.g., HTTP level
+   [RFC8677]
+
+   *  Internet services over ICN (see [ICNIP])
+
+   Work in the ICN RG [ICNRG] has generally studied the addressing of
+   information rather than endpoints, opening up the possibility for
+   providing information from different sources, including in-network
+   elements, such as for caching purposes.  The work in [ICNIP] utilizes
+   the ICN capabilities to address services directly as a named entity,
+   including IP endpoints, in order to support concepts like
+   virtualization of service endpoints and provisioning within edge and
+   in-network locations.  The solution in [ICNIP] proposes the use of a
+   Layer 2 path-based forwarding with service identifiers used to
+   address the specific service endpoint.
 
 4.  Flow granularity
 
@@ -246,6 +274,14 @@ Internet-Draft            COIN Transport Issues            February 2021
    needed for application-level computations might also be split up.  In
    contrast to that the content of UDP datagrams is defined by the
    application itself which is why the datagrams could either be self-
+
+
+
+Kunze, et al.             Expires 8 August 2021                 [Page 5]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
+
    contained or information can be cleverly distributed onto different
    datagrams.  Summarizing, different transport protocols induce
    different meanings to the packets that they send out which needs to
@@ -274,14 +310,6 @@ Internet-Draft            COIN Transport Issues            February 2021
    instance, error control may be best applied to the individual
    messages between computational endpoints, while congestion control
    may be applied across several messages at the level of the relation
-
-
-
-Kunze, et al.             Expires 5 August 2021                 [Page 5]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
-
    between the network elements hosting the computational endpoints.  In
    this view, the notion of a 'flow' may separate message or transaction
    handling from the resource management aspect, where a flow may be
@@ -294,14 +322,57 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 4.1.  Research questions and challenges
 
-   1.  Which flow granularities are sensible for which settings?
+   1.  Which flow granularities are sensible for which scenarios and
+       upper layer protocols?
 
    2.  How do the different flow granularities map to error and
        congestion control?
 
+   3.  How is flow granularity used for creating affinity in, e.g.,
+       routing choices?
+
+
+
+Kunze, et al.             Expires 8 August 2021                 [Page 6]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
+
+   4.  How may flow granularity information be used in COIN elements,
+       e.g., to support routing and transport protocol realizations?
+
 4.2.  Related concepts and efforts
 
-   To be added.
+   As mentioned above, flow granularities are defined in transport
+   protocols through their semantic for the unit of transfer, which can
+   be a 'datagram' or a 'flow'.  Upper layer protocols, such as HTTP,
+   map their application data into this semantic, resulting, for
+   instance, in a flow of HTTP requests.  Note that the flow identified
+   by the 5-tuple for the transport connection usually also carries the
+   reverse direction of communication, e.g., in the form of HTTP
+   responses.  The introduction of 'TCP re-use' in HTTP/1.1 introduced
+   the capability of sending many HTTP request/response interactions in
+   a single TCP flow.  The notion of flow granularity is being used in
+   [DYNCAST] to link the relation of one or more application level
+   interactions to a specific service instance in deployment scenarios
+   where more than one service instance may serve requests for a given
+   service; [DYNCAST] refers to the problem of 'instance affinity',
+   i.e., the need to send one or more such interactions to the same
+   instance before being able to choose another instance (e.g., based on
+   computing or network metrics, as suggested in [DYNCAST]).  At this
+   point of the work, the potential realization of such 'instance
+   affinity' and the relation to transport (as well as application)
+   protocols has not been discussed yet.
+
+   Within the concept of Service Function Chaining (SFC) [SFC-Arch], a
+   chain of services is formed and expressed through the next service
+   header (NSH) [SFC-NSH], which provides entries into a next hop table
+   maintained at each Service Function Forwarder (SFF) [SFC-Arch].
+   Packet classification takes place at the entry point of the chain,
+   therefore providing a notion of flow granularity where the chain is
+   treated as the 'unit of transfer'.  Chaining can take place at Layer
+   2 or Layer 3, but also at a name-based layer (such as HTTP), as
+   proposed in [RFC8677].
 
 5.  Collective Communication
 
@@ -310,7 +381,18 @@ Internet-Draft            COIN Transport Issues            February 2021
    for example illustrated by use cases in
    [I-D.draft-sarathchandra-coin-appcentres-03].  With this, unicast and
    multicast transmissions become almost equal forms of communication,
-   as also observed in work on information-centric networking (ICN).
+   as also observed in work on information-centric networking (ICN)
+   [ICNRG].
+
+
+
+
+
+
+Kunze, et al.             Expires 8 August 2021                 [Page 7]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
 
    Yet, these many-point relations may be ephemeral down to the
    granularity of individual service requests between computational
@@ -327,20 +409,46 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 5.1.  Research questions and challenges
 
-   To be added.
+   1.  How to handle ephemeral transport relations at the request level
+       across more than one endpoint?
 
+   2.  How to separate longer-term resource management from shorter-term
+       transaction handling for, e.g., error and flow control?
 
-
-
-
-Kunze, et al.             Expires 5 August 2021                 [Page 6]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
+   3.  What role could COIN elements play in improving on solutions for
+       questions 1 and 2?
 
 5.2.  Related concepts and efforts
 
-   *  [ICNRG]
+   As stated above, work in the [ICNRG] has long considered multicast
+   and unicast delivery as two communication models, realized by the
+   same communication method that utilizes the interest-data model of
+   ICN.  The work in [ICNIP] utilizes a different approach by relying on
+   path-based forwarding of packets identified through service-level
+   identifiers (such as URLs but also IP addresses), where return path
+   multicast is achieved through binary operations over the path
+   information of incoming service requests.  The utilized transport
+   network technology is that of 5GLAN or SDN, where the latter uses an
+   OpenFlow-compatible approach to path-based forwarding with constant
+   state requirements for the in-network forwarders.  A similar approach
+   is used in [BIER-MC] albeit at the level of a BIER overlay network.
+   [ICNIP] also discusses, albeit briefly only, the separation of
+   longer-lived resource management from shorter-lived transaction
+   handling to increase efficiency of the ephemeral return path
+   communication at the transport level.
+
+
+
+
+
+
+
+
+
+Kunze, et al.             Expires 8 August 2021                 [Page 8]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
 
 6.  Authentication
 
@@ -386,17 +494,17 @@ Internet-Draft            COIN Transport Issues            February 2021
    all payload data and almost all header content already inside the
    transport layer.  This makes current COIN concepts infeasible in
    settings where QUIC connections are used as the COIN elements do not
-
-
-
-Kunze, et al.             Expires 5 August 2021                 [Page 7]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
-
    have access to any packet content.  Using COIN thus also depends on
    how well security mechanisms like encryption can be integrated into
    COIN frameworks.
+
+
+
+
+Kunze, et al.             Expires 8 August 2021                 [Page 9]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
 
 7.1.  Research questions and challenges
 
@@ -441,20 +549,19 @@ Internet-Draft            COIN Transport Issues            February 2021
    on the basis of existing transport mechanisms or if a COIN-capable
    transport should include dedicated signals for the COIN elements.
 
-
-
-
-
-Kunze, et al.             Expires 5 August 2021                 [Page 8]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
-
    Apart from challenges in identifying retransmissions, there is also
    the fact that they are sent out of order with the original packet
    sequence.  Depending on the chosen flow granularity (see Section 4),
    COIN elements might have to hold contextual information for a
    prolonged time once they identify an impeding retransmission.
+
+
+
+Kunze, et al.             Expires 8 August 2021                [Page 10]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
+
    Moreover, they might have to postpone or cancel computations if data
    is missing and instead schedule later computations.  The main
    question arising from this is: to what extent should COIN elements be
@@ -499,16 +606,17 @@ Internet-Draft            COIN Transport Issues            February 2021
    make other approaches to reliability viable that operate on the basis
    of such messages.
 
-
-
-Kunze, et al.             Expires 5 August 2021                 [Page 9]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
-
 8.1.1.  Research questions and challenges
 
    1.   What is the unit of reliable transfer?
+
+
+
+
+Kunze, et al.             Expires 8 August 2021                [Page 11]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
 
    2.   How to utilize more than one computational endpoint in the
         reliability mechanism?
@@ -553,20 +661,18 @@ Internet-Draft            COIN Transport Issues            February 2021
 
    *  Stream Control Transmission Protocol [SCTP]
 
-
-
-
-
-Kunze, et al.             Expires 5 August 2021                [Page 10]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
-
    SCTP provides ensures a reliable exchange of messages.  In contrast
    to TCP, it decouples reliability from in-order delivery and thus
    allows for sending messages without ordering.  Additionally, it has
    also been extended to provide partial reliability, i.e., controlling
    the desired reliability on a per-message basis [SCTP-PR].
+
+
+
+Kunze, et al.             Expires 8 August 2021                [Page 12]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
 
    *  Constrained Application Protocol [CoAP]
 
@@ -610,17 +716,19 @@ Internet-Draft            COIN Transport Issues            February 2021
    induced by COIN elements (only in case that they are the bottleneck)
    is interpreted as network congestion and thus accounted for in the
    congestion control mechanism.  This means that the sending end-host
-
-
-
-Kunze, et al.             Expires 5 August 2021                [Page 11]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
-
    may repeatedly overload the computational capabilities of the COIN
    elements when probing for the current network conditions instead of
    respecting general device capabilities as is done by flow control.
+
+
+
+
+
+
+Kunze, et al.             Expires 8 August 2021                [Page 13]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
 
    In the context of COIN, the granularity of flows may see a division
    into sub-flows or messages to better represent the used computational
@@ -666,18 +774,18 @@ Internet-Draft            COIN Transport Issues            February 2021
 
    *  Separation of Data Path and Data Flow
 
-
-
-
-Kunze, et al.             Expires 5 August 2021                [Page 12]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
-
    [I-D.draft-asai-tsvwg-transport-review-00] proposes to explicitly
    divide transport protocols into two parts: a data path and a data
    flow layer.  Essentially, the data path layer is responsible for
    handling path-related tasks, such as congestion control, and as such
+
+
+
+Kunze, et al.             Expires 8 August 2021                [Page 14]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
+
    spans multiple flows.  The data flow layer on top then handles flow-
    related tasks such as retransmissions and flow control.  As indicated
    by the early stage of the document, the concrete structure is still
@@ -685,50 +793,7 @@ Internet-Draft            COIN Transport Issues            February 2021
    could give the opportunity to devise more sophisticated approaches to
    incorporate COIN elements.
 
-9.  Overview of related research and standardization efforts
-
-   *  Segment and Source Routing (see [SPRING-WG])
-
-   Source Routing allows a sender to (partially) define the route of a
-   packet through the network.  This mechanism can be leveraged to steer
-   the traffic along COIN nodes and thus trigger desired COIN
-   functionality.  The SPRING WG is scoped to define procedures around
-   Segment Routing [SR], a modern variant of Source Routing for IPv6 and
-   MPLS.
-
-   *  (Service/Network) Function Chaining/Composition (see [SFC-WG])
-
-   Service Function Chaining (SFC) describes a process to first define
-   an ordered list of service functions (e.g., firewalls) and then steer
-   traffic through these functions [SFC-PS].  The SFC WG is tasked with
-   defining suitable orchestration techniques for SFC.  The existing SFC
-   architecture [SFC-Arch] and the Network Service Header [SFC-NSH]
-   already provide fundamental mechanisms.  Interpreting COIN
-   functionality as service functions could make SFC applicable to COIN.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Kunze, et al.             Expires 5 August 2021                [Page 13]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
+9.  Summary of related research and standardization efforts
 
   +-----------------+--------------------------------------------------+
   | Issue           | Efforts                                          |
@@ -741,13 +806,15 @@ Internet-Draft            COIN Transport Issues            February 2021
   |                 | - SFC Problem Statement [SFC-PS]                 |
   |                 | - SFC Architecture [SFC-Arch]                    |
   |                 | - SFC Network Service Header [SFC-NSH]           |
+  |                 | - Internet Services over IP [ICNIP]              |
   +-----------------+--------------------------------------------------+
-  | Flow            |                                                  |
-  | Granularity     |                                                  |
-  |                 |                                                  |
+  | Flow            | Service Function Chaining [SFC-Arch], [SFC-NSH]  |
+  | Granularity     | Use cases and problem statement                  |
+  |                 |    for dynamic anycast [DYNCAST]                 |
   +-----------------+--------------------------------------------------+
-  | Collective      | [ICNRG]                                          |
-  | Communication   |                                                  |
+  | Collective      | Information-centric networking [ICNRG]           |
+  | Communication   | Internet Services over IP [ICNIP]                |
+  |                 | HTTP multicast over BIER [BIER-MC]               |
   +-----------------+--------------------------------------------------+
   | Authentication  | SFC Proof of Transit [SFC-PoT]                   |
   +-----------------+--------------------------------------------------+
@@ -765,6 +832,16 @@ Internet-Draft            COIN Transport Issues            February 2021
 
          Figure 1: Related research and standardization efforts.
 
+
+
+
+
+
+Kunze, et al.             Expires 8 August 2021                [Page 15]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
+
 10.  Security Considerations
 
    COIN changes the traditional paradigm of a simple network and the
@@ -777,14 +854,6 @@ Internet-Draft            COIN Transport Issues            February 2021
    functionality.  Thus, there exist no out-of-the-box security
    solutions for COIN which means new security concepts have to be
    developed to allow for a secure use of COIN.
-
-
-
-
-Kunze, et al.             Expires 5 August 2021                [Page 14]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
 
 11.  IANA Considerations
 
@@ -816,10 +885,41 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 13.  Informative References
 
+
+
+
+
+
+
+
+
+Kunze, et al.             Expires 8 August 2021                [Page 16]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
+
+   [BIER-MC]  Trossen, D., Rahman, A., Wang, C., and T. Eckert,
+              "Applicability of BIER Multicast Overlay for Adaptive
+              Streaming Services", Work in Progress, Internet-Draft,
+              draft-ietf-bier-multicast-http-response-05, 10 January
+              2021, <http://www.ietf.org/internet-drafts/draft-ietf-
+              bier-multicast-http-response-05.txt>.
+
    [CoAP]     Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
               Application Protocol (CoAP)", RFC 7252,
               DOI 10.17487/RFC7252, June 2014,
               <https://www.rfc-editor.org/info/rfc7252>.
+
+   [DYNCAST]  Liu, P., Willis, P., and D. Trossen, "Dynamic-Anycast
+              (Dyncast) Use Cases and Problem Statement", Work in
+              Progress, Internet-Draft , February 2021,
+              <https://datatracker.ietf.org/doc/draft-liu-dyncast-ps-
+              usecases/>.
+
+   [E2E]      Saltzer, J., Reed, D., and D. Clark, "End-to-end arguments
+              in system design", ACM Transactions on Computer
+              Systems Vol. 2, pp. 277-288, DOI 10.1145/357401.357402,
+              November 1984, <https://doi.org/10.1145/357401.357402>.
 
    [I-D.draft-asai-tsvwg-transport-review-00]
               Asai, H., "Separation of Data Path and Data Flow Sublayers
@@ -835,13 +935,6 @@ Internet-Draft            COIN Transport Issues            February 2021
               <http://www.ietf.org/internet-drafts/draft-kutscher-
               coinrg-dir-02.txt>.
 
-
-
-Kunze, et al.             Expires 5 August 2021                [Page 15]
-
-Internet-Draft            COIN Transport Issues            February 2021
-
-
    [I-D.draft-sarathchandra-coin-appcentres-03]
               Trossen, D., Sarathchandra, C., and M. Boniface, "In-
               Network Computing for App-Centric Micro-Services", Work in
@@ -850,8 +943,29 @@ Internet-Draft            COIN Transport Issues            February 2021
               internet-drafts/draft-sarathchandra-coin-appcentres-
               03.txt>.
 
+   [ICNIP]    Trossen, D., Robitzsch, S., Essex, U., AL-Naday, M., and
+              J. Riihijarvi, "Internet Services over ICN in 5G LAN
+              Environments", Work in Progress, Internet-Draft, draft-
+
+
+
+Kunze, et al.             Expires 8 August 2021                [Page 17]
+
+Internet-Draft            COIN Transport Issues            February 2021
+
+
+              trossen-icnrg-internet-icn-5glan-04, 1 October 2020,
+              <http://www.ietf.org/internet-drafts/draft-trossen-icnrg-
+              internet-icn-5glan-04.txt>.
+
    [ICNRG]    "Information-Centric Networking, IRTF Research Group",
               <https://datatracker.ietf.org/rg/icnrg/about/>.
+
+   [RFC8677]  Trossen, D., Purkayastha, D., and A. Rahman, "Name-Based
+              Service Function Forwarder (nSFF) Component within a
+              Service Function Chaining (SFC) Framework", RFC 8677,
+              DOI 10.17487/RFC8677, November 2019,
+              <https://www.rfc-editor.org/info/rfc8677>.
 
    [SCTP]     Stewart, R., Ed., "Stream Control Transmission Protocol",
               RFC 4960, DOI 10.17487/RFC4960, September 2007,
@@ -887,16 +1001,18 @@ Internet-Draft            COIN Transport Issues            February 2021
    [SFC-WG]   "Service Function Chaining, IETF Working Group",
               <https://datatracker.ietf.org/wg/sfc/about/>.
 
-   [SPRING-WG]
-              "Source Packet Routing in Networking, IETF Working Group",
-              <https://datatracker.ietf.org/wg/spring/about/>.
 
 
 
-Kunze, et al.             Expires 5 August 2021                [Page 16]
+
+Kunze, et al.             Expires 8 August 2021                [Page 18]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
+
+   [SPRING-WG]
+              "Source Packet Routing in Networking, IETF Working Group",
+              <https://datatracker.ietf.org/wg/spring/about/>.
 
    [SR]       Filsfils, C., Ed., Previdi, S., Ed., Ginsberg, L.,
               Decraene, B., Litkowski, S., and R. Shakir, "Segment
@@ -932,7 +1048,7 @@ Authors' Addresses
 
 
    Dirk Trossen
-   Huawei Technologies Duesseldorf GmbH
+   Huawei
    Riesstr. 25C
    D-80992 Munich
    Germany
@@ -945,8 +1061,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-Kunze, et al.             Expires 5 August 2021                [Page 17]
+Kunze, et al.             Expires 8 August 2021                [Page 19]

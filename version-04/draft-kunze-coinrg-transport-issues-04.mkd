@@ -33,7 +33,7 @@ author:
 -
     ins: D. Trossen
     name: Dirk Trossen
-    org: Huawei Technologies Duesseldorf GmbH
+    org: Huawei
     email: Dirk.Trossen@Huawei.com
     street: Riesstr. 25C
     city: Munich
@@ -75,6 +75,22 @@ informative:
     - org:
     date: false
     target: https://datatracker.ietf.org/rg/icnrg/about/
+  E2E: DOI.10.1145/357401.357402
+  ICNIP: I-D.draft-trossen-icnrg-internet-icn-5glan-04
+  BIER-MC: I-D.draft-ietf-bier-multicast-http-response-05
+  DYNCAST:
+    title: Dynamic-Anycast (Dyncast) Use Cases and Problem Statement
+    author:
+      -
+        ins: P. Liu
+      -
+        ins: P. Willis
+      -
+        ins: D. Trossen 
+    target: https://datatracker.ietf.org/doc/draft-liu-dyncast-ps-usecases/
+    date: 2021-02
+    seriesinfo: Work in Progress, Internet-Draft
+
 
 
 --- abstract
@@ -88,18 +104,16 @@ This document raises several questions regarding the use of transport protocols 
 --- middle
 
 # Introduction {#intro}
-A fundamental design choice of the Internet is that the network should be kept as simple as possible while complexity in the form of processing should be located on end-hosts at the edges of the network.
-This choice is reflected in the end-to-end principle which states that end-hosts directly address each other and perform most, if not all, relevant computations.
-The network, on the other hand, only performs transparent, reasonable operations which is typically interpreted as it only delivering the packets without modifying them.
-Transport protocols are consequently designed to facilitate the direct communication between end-hosts.
+A fundamental consideration for the Internet's design is that functions can be implemented correctly and completely only with the knowledge of the applications, as formulated in {{E2E}}. 
+This choice is reflected in the end-to-end (E2E) principle in that end-hosts perform most, if not all, relevant computations. 
+The network only performs transparent, reasonable operations such as delivering the packets without modifying them with transport protocols designed to facilitate the direct communication between those end-hosts.
 
-In practice, the end-to-end principle is often violated by intransparent middleboxes which alter transmitted packets, e.g., by dropping or changing header fields.
-Contrary to that, computing in the network (COIN) encourages explicit computations in the network which introduces an intertwined complexity as the computations on the end-hosts depend on the functionality deployed in the network.
-It further challenges traditional ``end-to-end'' transport protocols as they are not designed to address in-network computation entities or to include more than two devices into a communication.
-Some of these problems are already presented in {{I-D.draft-kutscher-coinrg-dir-02}}.
+{{E2E}}, however, does consider that "sometimes an incomplete version of the function provided by the communication system may be useful as a performance enhancement". 
+We link this consideration to the field of computing in the networking (COIN), which encourages explicit computations in the network, introducing an intertwined complexity as the computations on the end-hosts depend on the functionality deployed in the network. 
+Such thinking, to some extent, challenges traditional ``end-to-end'' transport protocols as they are not designed to address in-network computation entities or to include more than two devices into a communication, even for inherent functionalities provided by the transport protocol. 
+Some of resulting problems when considering in-network computation in the context of an overall E2E problem are already presented in {{I-D.draft-kutscher-coinrg-dir-02}}.
 
-This draft discusses potential problems for traditional transport protocols in more detail to raise questions that the COIN community needs to solve before a widespread application of COIN functionality is sensible.
-Collaboration with other IRTF and IETF groups, such as PANRG, the IETF transport area in general, or the LOOPS BOF, can help in finding suitable solutions. 
+This draft focusses on the potential opportunities and research questions for the design of transport protocols that may assume the availability of in-network computing capabilities, including the possible collaboration with other IRTF and IETF groups, such as PAN RG, the IETF transport area in general, or the LOOPS BOF, for finding suitable solutions. 
 
 # Terminology {#terms}
 
@@ -147,7 +161,13 @@ The SPRING WG is scoped to define procedures around Segment Routing {{SR}}, a mo
 Service Function Chaining (SFC) describes a process to first define an ordered list of service functions (e.g., firewalls) and then steer traffic through these functions {{SFC-PS}}. 
 The SFC WG is tasked with defining suitable orchestration techniques for SFC.
 The existing SFC architecture {{SFC-Arch}} and the Network Service Header {{SFC-NSH}} already provide fundamental mechanisms.
-Interpreting COIN functionality as service functions could make SFC applicable to COIN.
+Interpreting COIN functionality as service functions could make SFC applicable to COIN at Layer 2 and Layer 3, but also at name-based, e.g., HTTP level {{?RFC8677}}
+
+- Internet services over ICN (see {{ICNIP}})
+
+Work in the ICN RG {{ICNRG}} has generally studied the addressing of information rather than endpoints, opening up the possibility for providing information from different sources, including in-network elements, such as for caching purposes. 
+The work in {{ICNIP}} utilizes the ICN capabilities to address services directly as a named entity, including IP endpoints, in order to support concepts like virtualization of service endpoints and provisioning within edge and in-network locations. 
+The solution in {{ICNIP}} proposes the use of a Layer 2 path-based forwarding with service identifiers used to address the specific service endpoint. 
 
 
 # Flow granularity {#flowgranularity}
@@ -175,18 +195,32 @@ Such choice of flow granularity would consequently have a significant impact on 
 
 ## Research questions and challenges
 
-1. Which flow granularities are sensible for which settings? 
+1. Which flow granularities are sensible for which scenarios and upper layer protocols? 
 
 2. How do the different flow granularities map to error and congestion control?
 
+3. How is flow granularity used for creating affinity in, e.g., routing choices?
+
+4. How may flow granularity information be used in COIN elements, e.g., to support routing and transport protocol realizations?
+
 ## Related concepts and efforts
 
-To be added.
+As mentioned above, flow granularities are defined in transport protocols through their semantic for the unit of transfer, which can be a 'datagram' or a 'flow'. 
+Upper layer protocols, such as HTTP, map their application data into this semantic, resulting, for instance, in a flow of HTTP requests. 
+Note that the flow identified by the 5-tuple for the transport connection usually also carries the reverse direction of communication, e.g., in the form of HTTP responses. 
+The introduction of 'TCP re-use' in HTTP/1.1 introduced the capability of sending many HTTP request/response interactions in a single TCP flow. 
+The notion of flow granularity is being used in {{DYNCAST}} to link the relation of one or more application level interactions to a specific service instance in deployment scenarios where more than one service instance may serve requests for a given service; 
+{{DYNCAST}} refers to the problem of 'instance affinity', i.e., the need to send one or more such interactions to the same instance before being able to choose another instance (e.g., based on computing or network metrics, as suggested in {{DYNCAST}}). 
+At this point of the work, the potential realization of such 'instance affinity' and the relation to transport (as well as application) protocols has not been discussed yet. 
+
+Within the concept of Service Function Chaining (SFC) {{SFC-Arch}}, a chain of services is formed and expressed through the next service header (NSH) {{SFC-NSH}}, which provides entries into a next hop table maintained at each Service Function Forwarder (SFF) {{SFC-Arch}}. 
+Packet classification takes place at the entry point of the chain, therefore providing a notion of flow granularity where the chain is treated as the 'unit of transfer'. 
+Chaining can take place at Layer 2 or Layer 3, but also at a name-based layer (such as HTTP), as proposed in {{?RFC8677}}.
 
 
 # Collective Communication {#collectiveCommunication}
-COIN scenarios may exhibit a collective communication semantic, i.e., a communication between one and more computational endpoints, as is for example illustrated by use cases in {{I-D.draft-sarathchandra-coin-appcentres-03}}.
-With this, unicast and multicast transmissions become almost equal forms of communication, as also observed in work on information-centric networking (ICN). 
+COIN scenarios may exhibit a collective communication semantic, i.e., a communication between one and more computational endpoints, as is for example illustrated by use cases in {{I-D.draft-sarathchandra-coin-appcentres-03}}. 
+With this, unicast and multicast transmissions become almost equal forms of communication, as also observed in work on information-centric networking (ICN) {{ICNRG}}. 
 
 Yet, these many-point relations may be ephemeral down to the granularity of individual service requests between computational endpoints which questions the viability of stateful routing and transport approaches used for long-lived multicast scenarios such as liveTV transmissions. 
 
@@ -196,11 +230,19 @@ The ability to divide receiver groups with the support of in-network COIN elemen
 
 ## Research questions and challenges
 
-To be added.
+1. How to handle ephemeral transport relations at the request level across more than one endpoint? 
+
+2. How to separate longer-term resource management from shorter-term transaction handling for, e.g., error and flow control? 
+
+3. What role could COIN elements play in improving on solutions for questions 1 and 2?
 
 ## Related concepts and efforts
 
-- {{ICNRG}}
+As stated above, work in the {{ICNRG}} has long considered multicast and unicast delivery as two communication models, realized by the same communication method that utilizes the interest-data model of ICN. 
+The work in {{ICNIP}} utilizes a different approach by relying on path-based forwarding of packets identified through service-level identifiers (such as URLs but also IP addresses), where return path multicast is achieved through binary operations over the path information of incoming service requests. 
+The utilized transport network technology is that of 5GLAN or SDN, where the latter uses an OpenFlow-compatible approach to path-based forwarding with constant state requirements for the in-network forwarders.
+A similar approach is used in {{BIER-MC}} albeit at the level of a BIER overlay network. 
+{{ICNIP}} also discusses, albeit briefly only, the separation of longer-lived resource management from shorter-lived transaction handling to increase efficiency of the ephemeral return path communication at the transport level. 
 
 
 # Authentication {#auth}
@@ -377,22 +419,7 @@ As indicated by the early stage of the document, the concrete structure is still
 Yet, explicitly dividing congestion and flow control could give the opportunity to devise more sophisticated approaches to incorporate COIN elements.
 
  
-# Overview of related research and standardization efforts
-
-- Segment and Source Routing (see {{SPRING-WG}})
-
-Source Routing allows a sender to (partially) define the route of a packet through the network.
-This mechanism can be leveraged to steer the traffic along COIN nodes and thus trigger desired COIN functionality.
-The SPRING WG is scoped to define procedures around Segment Routing {{SR}}, a modern variant of Source Routing for IPv6 and MPLS.
-
-- (Service/Network) Function Chaining/Composition  (see {{SFC-WG}})
-
-Service Function Chaining (SFC) describes a process to first define an ordered list of service functions (e.g., firewalls) and then steer traffic through these functions {{SFC-PS}}. 
-The SFC WG is tasked with defining suitable orchestration techniques for SFC.
-The existing SFC architecture {{SFC-Arch}} and the Network Service Header {{SFC-NSH}} already provide fundamental mechanisms.
-Interpreting COIN functionality as service functions could make SFC applicable to COIN.
-
-
+# Summary of related research and standardization efforts
 
 ~~~~~~~~
 +-----------------+--------------------------------------------------+
@@ -406,13 +433,15 @@ Interpreting COIN functionality as service functions could make SFC applicable t
 |                 | - SFC Problem Statement [SFC-PS]                 |
 |                 | - SFC Architecture [SFC-Arch]                    |
 |                 | - SFC Network Service Header [SFC-NSH]           |
+|                 | - Internet Services over IP [ICNIP]              |
 +-----------------+--------------------------------------------------+
-| Flow            |                                                  |
-| Granularity     |                                                  |
-|                 |                                                  |
+| Flow            | Service Function Chaining [SFC-Arch], [SFC-NSH]  |
+| Granularity     | Use cases and problem statement                  |
+|                 |    for dynamic anycast [DYNCAST]                 |
 +-----------------+--------------------------------------------------+
-| Collective      | [ICNRG]                                          |
-| Communication   |                                                  |
+| Collective      | Information-centric networking [ICNRG]           |
+| Communication   | Internet Services over IP [ICNIP]                |
+|                 | HTTP multicast over BIER [BIER-MC]               |
 +-----------------+--------------------------------------------------+
 | Authentication  | SFC Proof of Transit [SFC-PoT]                   |
 +-----------------+--------------------------------------------------+
