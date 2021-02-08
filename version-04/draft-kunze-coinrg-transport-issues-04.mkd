@@ -33,7 +33,8 @@ author:
 -
     ins: D. Trossen
     name: Dirk Trossen
-    org: Huawei
+    org: Huawei Technologies Duesseldorf GmbH
+    abbrev: Huawei
     email: Dirk.Trossen@Huawei.com
     street: Riesstr. 25C
     city: Munich
@@ -445,14 +446,11 @@ Yet, explicitly dividing congestion and flow control could give the opportunity 
 +-----------------+--------------------------------------------------+
 | Authentication  | SFC Proof of Transit [SFC-PoT]                   |
 +-----------------+--------------------------------------------------+
-| Transport       |                                                  |
-| Features        |                                                  |
-+- - - - - - - - -+- - - - - - - - - - - - - - - - - - - - - - - - - +
 | Reliability     | Transmission Control Protocol [TCP]              |
 |                 | Stream Control Transmission Protocol [SCTP]      |
 |                 | Constrained Application Protocol [CoAP]          |
 |                 | User Datagram Protocol [UDP]                     |
-+- - - - - - - - -+- - - - - - - - - - - - - - - - - - - - - - - - - +
++-----------------+--------------------------------------------------+
 | Flow/Congestion | [I-D.draft-asai-tsvwg-transport-review-00]       |
 | Control         |                                                  |
 +-----------------+--------------------------------------------------+

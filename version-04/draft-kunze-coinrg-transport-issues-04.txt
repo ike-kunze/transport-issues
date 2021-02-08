@@ -5,9 +5,9 @@
 COINRG                                                          I. Kunze
 Internet-Draft                                                 K. Wehrle
 Intended status: Informational                    RWTH Aachen University
-Expires: 8 August 2021                                        D. Trossen
+Expires: 12 August 2021                                       D. Trossen
                                                                   Huawei
-                                                         4 February 2021
+                                                         8 February 2021
 
 
        Transport Protocol Issues of In-Network Computing Systems
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 August 2021.
+   This Internet-Draft will expire on 12 August 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Kunze, et al.             Expires 8 August 2021                 [Page 1]
+Kunze, et al.            Expires 12 August 2021                 [Page 1]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Kunze, et al.             Expires 8 August 2021                 [Page 2]
+Kunze, et al.            Expires 12 August 2021                 [Page 2]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -165,7 +165,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                 [Page 3]
+Kunze, et al.            Expires 12 August 2021                 [Page 3]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -221,7 +221,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                 [Page 4]
+Kunze, et al.            Expires 12 August 2021                 [Page 4]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -277,7 +277,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                 [Page 5]
+Kunze, et al.            Expires 12 August 2021                 [Page 5]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -333,7 +333,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                 [Page 6]
+Kunze, et al.            Expires 12 August 2021                 [Page 6]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -389,7 +389,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                 [Page 7]
+Kunze, et al.            Expires 12 August 2021                 [Page 7]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -445,7 +445,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                 [Page 8]
+Kunze, et al.            Expires 12 August 2021                 [Page 8]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -501,7 +501,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                 [Page 9]
+Kunze, et al.            Expires 12 August 2021                 [Page 9]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -557,7 +557,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                [Page 10]
+Kunze, et al.            Expires 12 August 2021                [Page 10]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -613,7 +613,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                [Page 11]
+Kunze, et al.            Expires 12 August 2021                [Page 11]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -669,7 +669,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                [Page 12]
+Kunze, et al.            Expires 12 August 2021                [Page 12]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -725,7 +725,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                [Page 13]
+Kunze, et al.            Expires 12 August 2021                [Page 13]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -781,7 +781,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                [Page 14]
+Kunze, et al.            Expires 12 August 2021                [Page 14]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -818,14 +818,11 @@ Internet-Draft            COIN Transport Issues            February 2021
   +-----------------+--------------------------------------------------+
   | Authentication  | SFC Proof of Transit [SFC-PoT]                   |
   +-----------------+--------------------------------------------------+
-  | Transport       |                                                  |
-  | Features        |                                                  |
-  +- - - - - - - - -+- - - - - - - - - - - - - - - - - - - - - - - - - +
   | Reliability     | Transmission Control Protocol [TCP]              |
   |                 | Stream Control Transmission Protocol [SCTP]      |
   |                 | Constrained Application Protocol [CoAP]          |
   |                 | User Datagram Protocol [UDP]                     |
-  +- - - - - - - - -+- - - - - - - - - - - - - - - - - - - - - - - - - +
+  +-----------------+--------------------------------------------------+
   | Flow/Congestion | [I-D.draft-asai-tsvwg-transport-review-00]       |
   | Control         |                                                  |
   +-----------------+--------------------------------------------------+
@@ -837,7 +834,10 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                [Page 15]
+
+
+
+Kunze, et al.            Expires 12 August 2021                [Page 15]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -893,7 +893,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                [Page 16]
+Kunze, et al.            Expires 12 August 2021                [Page 16]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -949,7 +949,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                [Page 17]
+Kunze, et al.            Expires 12 August 2021                [Page 17]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -1005,7 +1005,7 @@ Internet-Draft            COIN Transport Issues            February 2021
 
 
 
-Kunze, et al.             Expires 8 August 2021                [Page 18]
+Kunze, et al.            Expires 12 August 2021                [Page 18]
 
 Internet-Draft            COIN Transport Issues            February 2021
 
@@ -1048,7 +1048,7 @@ Authors' Addresses
 
 
    Dirk Trossen
-   Huawei
+   Huawei Technologies Duesseldorf GmbH
    Riesstr. 25C
    D-80992 Munich
    Germany
@@ -1061,4 +1061,4 @@ Authors' Addresses
 
 
 
-Kunze, et al.             Expires 8 August 2021                [Page 19]
+Kunze, et al.            Expires 12 August 2021                [Page 19]
